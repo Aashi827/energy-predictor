@@ -16,32 +16,34 @@ st.markdown("Predict energy consumption based on environmental and indoor condit
 st.divider()
 
 # Section: Environment
+# 🌤️ Environmental Conditions
 st.subheader("🌤️ Environmental Conditions")
-Press = st.number_input("Pressure (mm Hg)", value=755.0)
+Press = st.number_input("Atmospheric Pressure (mm Hg)", value=755.0)
+T_out = st.slider("Outdoor Temperature (°C)", -10.0, 50.0)
 RH_out = st.slider("Outdoor Humidity (%)", 0, 100)
-T_out = st.slider("Outdoor Temperature (°C)", -10, 50)
 Windspeed = st.slider("Wind Speed", 0.0, 20.0)
 
 st.divider()
 
-# Section: Indoor Conditions
+# 🏠 Indoor Conditions
 st.subheader("🏠 Indoor Conditions")
-T2 = st.slider("Room Temperature T2", 0.0, 50.0)
-T3 = st.slider("Room Temperature T3", 0.0, 50.0)
-T6 = st.slider("Outdoor Temp T6", -10.0, 50.0)
 
-RH_1 = st.slider("Room 1 Humidity", 0, 100)
-RH_3 = st.slider("Room 3 Humidity", 0, 100)
-RH_5 = st.slider("Room 5 Humidity", 0, 100)
-RH_8 = st.slider("Room 8 Humidity", 0, 100)
+T2 = st.slider("Living Room Temperature (°C)", 0.0, 50.0)
+T3 = st.slider("Bedroom Temperature (°C)", 0.0, 50.0)
+T6 = st.slider("Near-Outdoor Temperature (°C)", -10.0, 50.0)
 
-lights = st.slider("Lights Usage", 0, 100)
+RH_1 = st.slider("Living Room Humidity (%)", 0, 100)
+RH_3 = st.slider("Bedroom Humidity (%)", 0, 100)
+RH_5 = st.slider("Kitchen Humidity (%)", 0, 100)
+RH_8 = st.slider("Office Room Humidity (%)", 0, 100)
+
+lights = st.slider("Lighting Usage Level", 0, 100)
 
 st.divider()
 
-# Time
+# ⏰ Time
 st.subheader("⏰ Time")
-hour = st.slider("Hour of Day", 0, 23)
+hour = st.slider("Hour of Day (0 = Midnight, 23 = Night)", 0, 23)
 
 # Prediction
 if st.button("🔮 Predict Energy Consumption"):
@@ -60,10 +62,20 @@ if st.button("🔮 Predict Energy Consumption"):
     'RH_3': RH_3,
     'RH_5': RH_5
 }])
+    with st.spinner("Predicting..."):
     prediction = model.predict(input_data)
 
-    st.success(f"⚡ Predicted Energy Consumption: {prediction[0]:.2f} Wh")
+st.success(f"⚡ Predicted Energy Consumption: {prediction[0]:.2f} Wh")
+
+if prediction[0] < 200:
+    st.success("🟢 Low Energy Usage")
+elif prediction[0] < 400:
+    st.warning("🟡 Moderate Usage")
+else:
+    st.error("🔴 High Energy Usage")
+
 st.divider()
+
 st.markdown("### 📊 About this model")
 st.write("""
 This model uses a Random Forest Regressor trained on environmental and indoor sensor data 
