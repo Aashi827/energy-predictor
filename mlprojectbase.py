@@ -48,31 +48,31 @@ hour = st.slider("Hour of Day (0 = Midnight, 23 = Night)", 0, 23)
 # Prediction
 if st.button("🔮 Predict Energy Consumption"):
     input_data = pd.DataFrame([{
-    'T6': T6,
-    'T3': T3,
-    'lights': lights,
-    'Press_mm_hg': Press,
-    'T_out': T_out,
-    'RH_1': RH_1,
-    'RH_8': RH_8,
-    'T2': T2,
-    'hour': hour,
-    'RH_out': RH_out,
-    'Windspeed': Windspeed,
-    'RH_3': RH_3,
-    'RH_5': RH_5
-}])
+        'T6': T6,
+        'T3': T3,
+        'lights': lights,
+        'Press_mm_hg': Press,
+        'T_out': T_out,
+        'RH_1': RH_1,
+        'RH_8': RH_8,
+        'T2': T2,
+        'hour': hour,
+        'RH_out': RH_out,
+        'Windspeed': Windspeed,
+        'RH_3': RH_3,
+        'RH_5': RH_5
+    }])
     with st.spinner("Predicting..."):
-    prediction = model.predict(input_data)
+        prediction = model.predict(input_data)
 
-st.success(f"⚡ Predicted Energy Consumption: {prediction[0]:.2f} Wh")
+    st.success(f"⚡ Predicted Energy Consumption: {prediction[0]:.2f} Wh")
 
-if prediction[0] < 200:
-    st.success("🟢 Low Energy Usage")
-elif prediction[0] < 400:
-    st.warning("🟡 Moderate Usage")
-else:
-    st.error("🔴 High Energy Usage")
+    if prediction[0] < 200:
+        st.success("🟢 Low Energy Usage")
+    elif prediction[0] < 400:
+        st.warning("🟡 Moderate Usage")
+    else:
+        st.error("🔴 High Energy Usage")
 
 st.divider()
 
