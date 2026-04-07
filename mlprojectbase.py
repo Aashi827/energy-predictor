@@ -46,20 +46,20 @@ hour = st.slider("Hour of Day", 0, 23)
 # Prediction
 if st.button("🔮 Predict Energy Consumption"):
     input_data = pd.DataFrame([{
-        'Press_mm_hg': Press,
-        'RH_out': RH_out,
-        'T_out': T_out,
-        'hour': hour,
-        'RH_5': RH_5,
-        'RH_1': RH_1,
-        'RH_8': RH_8,
-        'RH_3': RH_3,
-        'T2': T2,
-        'T6': T6,
-        'Windspeed': Windspeed,
-        'lights': lights,
-        'T3': T3
-    }])
+    'T6': T6,
+    'T3': T3,
+    'lights': lights,
+    'Press_mm_hg': Press,
+    'T_out': T_out,
+    'RH_1': RH_1,
+    'RH_8': RH_8,
+    'T2': T2,
+    'hour': hour,
+    'RH_out': RH_out,
+    'Windspeed': Windspeed,
+    'RH_3': RH_3,
+    'RH_5': RH_5
+}])
 
     prediction = model.predict(input_data)
 
